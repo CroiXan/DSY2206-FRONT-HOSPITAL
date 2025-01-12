@@ -4,6 +4,7 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 import { MSAL_GUARD_CONFIG, MsalBroadcastService, MsalGuardConfiguration, MsalModule, MsalService } from '@azure/msal-angular';
 import { AuthenticationResult, EventMessage, EventType, InteractionStatus, PopupRequest, RedirectRequest } from '@azure/msal-browser';
 import { filter, Subject, takeUntil } from 'rxjs';
+import { HospitalSidebarComponent } from './components/hospital-sidebar/hospital-sidebar.component';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,8 @@ import { filter, Subject, takeUntil } from 'rxjs';
     RouterOutlet,
     MsalModule,
     CommonModule,
-    RouterLink
+    RouterLink,
+    HospitalSidebarComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
