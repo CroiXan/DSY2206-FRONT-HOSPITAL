@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
 })
 export class SoporteComponent {
 
-  title:string = "Modulo Soporte";
-  subtitle: string = "Bienvenido al modulo de Soporte. Aqui podrás gestionar solicitudes o reportar incidencias al equipo de soporte.";
+  title:string = "Módulo Soporte";
+  subtitle: string = "Bienvenido al módulo de Soporte. Aquí podrás gestionar solicitudes o reportar incidencias al equipo de soporte.";
 
 }

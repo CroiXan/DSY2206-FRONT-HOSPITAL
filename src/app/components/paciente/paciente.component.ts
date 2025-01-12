@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
 })
 export class PacienteComponent {
 
-  title:string = "Modulo Pacientes";
+  title:string = "Módulo Pacientes";
   subtitle:string = "Bienvenido al módulo de Gestión de Pacientes Aquí podrás gestionar los registros de pacientes y otras tareas relacionadas.";
 
 }

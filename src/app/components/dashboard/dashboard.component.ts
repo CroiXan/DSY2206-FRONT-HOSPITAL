@@ -9,6 +9,6 @@ import { Component } from '@angular/core';
 })
 export class DashboardComponent {
   title:string = "Dashboard";
-  subtitle: string = "Bienvenido al panel Dashboard. Aqui podras revisar informacion general del sistema.";
+  subtitle: string = "Bienvenido al panel Dashboard. Aquí podras revisar información general del sistema.";
 
 }
