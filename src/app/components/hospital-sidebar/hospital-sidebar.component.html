@@ -1,0 +1,20 @@
+<div class="d-flex" [class.collapsed]="collapsed">
+    <div class="sidebar">
+      <button class="btn btn-outline-primary collapse-btn" (click)="toggleSidebar()">
+        <i class="bi" [class.bi-arrow-left]="!collapsed" [class.bi-arrow-right]="collapsed"></i>
+      </button>
+  
+      <ul class="sidebar-nav">
+        @for(item of sidebarMenuItems; track item.link) {
+          <li class="nav-item">
+            <a class="nav-link" routerLink="item.link" (click)="navigateTo(item.link)">
+              <i class="bi" [class]="item.icon"></i>              
+              @if(!collapsed) {
+                <span>{{ item.label }}</span>
+              }
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
+</div>
