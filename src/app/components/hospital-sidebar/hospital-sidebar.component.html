@@ -6,7 +6,7 @@
   
       <ul class="sidebar-nav">
         @for(item of sidebarMenuItems; track item.link) {
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="item.label == 'Dashboard' || loginDisplay">
             <a class="nav-link" routerLink="item.link" (click)="navigateTo(item.link)">
               <i class="bi" [class]="item.icon"></i>              
               @if(!collapsed) {
@@ -15,6 +15,18 @@
             </a>
           </li>
         }
+        <li class="nav-item" *ngIf="loginDisplay">
+          <a class="nav-link" routerLink="item.link" (click)="logout(true)">
+            <i class="bi" [class]=""></i>              
+            <span>Cerrar sesión</span>
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="!loginDisplay">
+          <a class="nav-link" routerLink="item.link" (click)="loginPopup()">
+            <i class="bi" [class]=""></i>              
+            <span>Iniciar sesión</span>
+          </a>
+        </li>
       </ul>
     </div>
 </div>

@@ -23,9 +23,11 @@ export const routes: Routes = [
     {
       path: 'paciente',
       component: PacienteComponent,
+      canActivate: [MsalGuard],
     },
     {
       path: 'soporte',
       component: SoporteComponent,
+      canActivate: [MsalGuard],
     }
 ];
