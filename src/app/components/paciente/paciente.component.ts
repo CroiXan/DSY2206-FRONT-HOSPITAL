@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { PatientService } from '../../service/patient.service';
+import { Patient } from '../../model/patient.model';
 
 @Component({
   selector: 'app-paciente',
@@ -132,17 +133,21 @@ export class PacienteComponent {
     }
 
     // preparar request paciente
-    const userData = {
+    const userData: Patient = {
       rut,
       nombre,
       apellidos,
       email,
-      bornDate: formattedBornDate,
+      bornDate: formattedBornDate!,
       password,
     };
     console.log(userData);
     //validar accion segun accordion actionCrud se setea cuando apretamos el acordeon onSetAccordionChange()
     //aqui llamar servicio si post hacer post , si put actualizar, eliminar quizas no, y el buscar llamara  todos los pacientes y filtrar por rut aqui en front mientras
+    
+    this.patientService.callAPI(this.actionCrud, userData, (data) => {
+      console.log(JSON.stringify(data))
+    });
     console.log("this.actionCrud",this.actionCrud)
 
   }
@@ -164,7 +169,7 @@ export class PacienteComponent {
       this.actionCrud = "PUT";
     }
     else if ($event.target.innerText === 'Eliminar Paciente'){
-      this.actionCrud = "PUT";
+      this.actionCrud = "DELETE";
     }
     else if ($event.target.innerText === 'Fichas Paciente'){
       this.actionCrud = "GET";
