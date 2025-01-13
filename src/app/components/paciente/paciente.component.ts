@@ -2,6 +2,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { PatientService } from '../../service/patient.service';
 
 @Component({
   selector: 'app-paciente',
@@ -26,7 +27,8 @@ export class PacienteComponent {
     private formBuilder: FormBuilder,
     private searchFormBuilder: FormBuilder,
     private datePipe: DatePipe,
-    private router: Router
+    private router: Router,
+    private patientService: PatientService
   ) {
     // Inicialización del formulario con validaciones
     this.registroForm = this.formBuilder.group({
@@ -148,6 +150,9 @@ export class PacienteComponent {
   getPatients(){
     console.log("this.searchForm.value",this.searchForm.value);
     const { rut } = this.searchForm.value;
+    this.patientService.findByRut(rut, (data) => {
+      console.log(JSON.stringify(data))
+    });
   }
 
   onSetAccordionChange($event:any){

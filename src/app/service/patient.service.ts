@@ -77,4 +77,29 @@ export class PatientService {
     return this.http.delete<string>(`${this.API_URI}/${id}`, this.httpOptions);
   }
 
+  public callAPI(actionCrud:string, patient: Patient, callback: (data: any) => void){
+    if(actionCrud = "POST"){
+      this.postPatient(patient);
+    } else if (actionCrud = "PUT"){
+      
+    } else if (actionCrud = "DELETE"){
+      
+    } else if (actionCrud = "GET"){
+      
+    }
+  }
+
+  public findByRut(rut: string, callback: (data: Patient) => void){
+    this.getAllPatients().subscribe({
+      next: (data) => {
+        if (typeof data === 'object') {
+          var patientList: Patient[] = data
+          const patient = patientList.find(item => item.rut == rut) ?? {};
+          callback(patient)
+        }else{
+          callback({})
+        }
+      }
+    });
+  }
 }
