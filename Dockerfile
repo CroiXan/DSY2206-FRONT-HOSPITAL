@@ -15,7 +15,7 @@ FROM nginx:stable-alpine
 COPY --from=build /app/dist/dsy2206-front-hospital/browser /usr/share/nginx/html
 
 # Sobreescribir index.html default de nginx
-COPY --from=build /app/dist/dsy2206-front-hospital/index.csr.html /usr/share/nginx/html/index.html
+COPY --from=build /app/dist/dsy2206-front-hospital/browser/index.html /usr/share/nginx/html/index.html
 
 EXPOSE 80
 
