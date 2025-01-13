@@ -4,3 +4,12 @@
     margin-right: 3rem;
     padding-left: 3rem;
 }
+
+.acordion-background{
+    color: black;
+    background: white;
+  }
+
+  .accordion-item {
+    border: none;
+  }
