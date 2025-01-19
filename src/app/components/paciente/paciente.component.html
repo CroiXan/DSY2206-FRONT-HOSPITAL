@@ -117,7 +117,12 @@
                                                     <button type="submit" class="btn btn-outline-success w-100" (click)="getPatients()" [disabled]="searchForm.invalid">Buscar</button>
                                                 </div>
                                             </div>
-                                        </form>               
+                                        </form>  
+                                        
+                                        @if(patientList != undefined){                                
+                                            <app-table [rows]="patientList" label="pacientes"></app-table>                            
+                                        }
+                                        
                                     </div>
                                 </div>                            
                             

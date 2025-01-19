@@ -4,11 +4,13 @@ import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { PatientService } from '../../service/patient.service';
 import { Patient } from '../../model/patient.model';
+import { TableComponent } from '../table/table.component';
+import {patientAccordion, patients} from '../../data/index';
 
 @Component({
   selector: 'app-paciente',
   standalone: true,
-  imports: [ReactiveFormsModule,CommonModule],
+  imports: [ReactiveFormsModule,CommonModule, TableComponent],
   templateUrl: './paciente.component.html',
   styleUrl: './paciente.component.css',
   providers: [DatePipe, RouterLink]
@@ -22,6 +24,7 @@ export class PacienteComponent {
   currentDate: string = "";
   accordionItems!: any[] | undefined;
   actionCrud: string ="";
+  patientList? : any[] = undefined;
 
 
   constructor(
@@ -54,6 +57,8 @@ export class PacienteComponent {
   ngOnInit(): void {
 
     this.loadAcordion();
+    this.patientList = patients;
+    console.log("this.patientList",this.patientList);
   }
 
 
@@ -88,24 +93,7 @@ export class PacienteComponent {
 
   loadAcordion()
   {
-    this.accordionItems! =[
-        {
-          id: 0,
-          label: "Registrar Paciente",
-        },
-        {
-          id: 1,
-          label: "Modificar Paciente",
-        },
-        {
-          id: 2,
-          label: "Eliminar Paciente",
-        },
-        {
-          id: 3,
-          label: "Fichas Paciente",
-        }
-      ];
+    this.accordionItems! = patientAccordion;
   }
 
   toggleAccordion(item: any, $event:any){
@@ -156,7 +144,16 @@ export class PacienteComponent {
     console.log("this.searchForm.value",this.searchForm.value);
     const { rut } = this.searchForm.value;
     this.patientService.findByRut(rut, (data) => {
-      console.log(JSON.stringify(data))
+      console.log("data",data)
+
+      if (data !== null && typeof data === 'object' && Object.keys(data).length > 0) {
+        this.patientList = []; 
+        this.patientList?.push(data);
+      } else {
+        this.patientList = [];
+      }
+
+
     });
   }
 
