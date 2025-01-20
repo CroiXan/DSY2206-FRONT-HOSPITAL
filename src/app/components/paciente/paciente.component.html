@@ -1,137 +1,143 @@
 <div class="row">
-    <div class="card">
-        <div class="card-header">
-            <h1>{{ title }}</h1>
-        </div>
-        <div class="card-body">
-            <p>{{ subtitle }}</p>
-            
-            <div class="accordion" id="accordionExample">     
-                @for (item of accordionItems; track item.id) {
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" [id]="'heading' + item.id">
-                        <button class="accordion-button acordion-background" type="button" (click)="toggleAccordion(item, $event)" [attr.data-bs-toggle]="'collapse'" [attr.data-bs-target]="'#collapse' + item.id" [attr.aria-expanded]="item.show" [attr.aria-controls]="'collapse' + item.id">
-                            {{ item.label }}
-                        </button>
-                        </h2>
-                        <div [id]="'collapse' + item.id" class="accordion-collapse collapse" [class]="{'show': item.show}" [attr.aria-labelledby]="'heading' + item.id" data-bs-parent="#accordionExample">
-                        
-                        @if(item.label === 'Registrar Paciente' || item.label === 'Modificar Paciente' || item.label === 'Eliminar Paciente'){
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="row">
-                                    <div class="col-12 text-center">
-                                        <h2>Formulario {{item.label}}</h2>
-                                    </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <form [formGroup]="registroForm">
-                                    <!-- Campo RUT -->
-                                    <div class="mb-3">
-                                        <label for="rut" class="form-label">RUT</label>
-                                        <input type="text" class="form-control" id="rut" formControlName="rut">
-                                        @if (isPatientFieldInvalid('rut')) {
-                                        <div class="text-danger">RUT es requerido y debe tener el formato válido.</div>
-                                        }
-                                    </div>
-                        
-                                    <!-- Campo Nombre -->
-                                    <div class="mb-3">
-                                        <label for="nombre" class="form-label">Nombre</label>
-                                        <input type="text" class="form-control" id="nombre" formControlName="nombre">
-                                        @if (isPatientFieldInvalid('nombre')) {
-                                        <div class="text-danger">Nombre es requerido.</div>
-                                        }
-                                    </div>
-                        
-                                    <!-- Campo Apellidos -->
-                                    <div class="mb-3">
-                                        <label for="apellidos" class="form-label">Apellidos</label>
-                                        <input type="text" class="form-control" id="apellidos" formControlName="apellidos">
-                                        @if (isPatientFieldInvalid('apellidos')) {
-                                        <div class="text-danger">Apellidos son requeridos.</div>
-                                        }
-                                    </div>
-                        
-                                    <!-- Campo Email -->
-                                    <div class="mb-3">
-                                        <label for="email" class="form-label">Correo Electrónico</label>
-                                        <input type="email" class="form-control" id="email" formControlName="email">
-                                        @if (isPatientFieldInvalid('email')) {
-                                        <div class="text-danger">Introduce un correo electrónico válido.</div>
-                                        }
-                                    </div>
-                        
-                                    <!-- Campo Fecha de Nacimiento -->
-                                    <div class="mb-3">
-                                        <label for="bornDate" class="form-label">Fecha de Nacimiento</label>
-                                        <input type="date" class="form-control" [max]="currentDate" id="bornDate" formControlName="bornDate">
-                                        @if (isPatientFieldInvalid('bornDate')) {
-                                        <div class="text-danger">La fecha de nacimiento es requerida.</div>
-                                        }
-                                    </div>
-                        
-                                    <!-- Campo Contraseña -->
-                                    <div class="mb-3">
-                                        <label for="password" class="form-label">Contraseña</label>
-                                        <input type="password" class="form-control" id="password" formControlName="password">
-                                        @if (isPatientFieldInvalid('password')) {
-                                        <div class="text-danger">La contraseña debe tener al menos 6 caracteres.</div>
-                                        }
-                                    </div>
-                        
-                                    <!-- Campo Confirmar Contraseña -->
-                                    <div class="mb-3">
-                                        <label for="password2" class="form-label">Confirmar Contraseña</label>
-                                        <input type="password" class="form-control" id="password2" formControlName="password2">
-                                        @if (isPatientFieldInvalid('password2')) {
-                                        <div class="text-danger">La confirmación de contraseña debe tener al menos 6 caracteres.</div>
-                                        }
-                                    </div>
-                        
-                                    <button type="submit" class="btn btn-primary" (click)="submitForm()" [disabled]="registroForm.invalid">Registrar</button>
-                                    </form>
-                                </div>
-                            </div>
+    @if(childRoute === true){
+        <router-outlet />
+    }@else{
 
-                        }@else if (item.label === 'Fichas Paciente'){                      
+        <div class="card">
+            <div class="card-header">
+                <h1>{{ title }}</h1>
+            </div>
+            <div class="card-body">
+                <p>{{ subtitle }}</p>
+                
+                <div class="accordion" id="accordionExample">     
+                    @for (item of accordionItems; track item.id) {
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" [id]="'heading' + item.id">
+                            <button class="accordion-button acordion-background" type="button" (click)="toggleAccordion(item, $event)" [attr.data-bs-toggle]="'collapse'" [attr.data-bs-target]="'#collapse' + item.id" [attr.aria-expanded]="item.show" [attr.aria-controls]="'collapse' + item.id">
+                                {{ item.label }}
+                            </button>
+                            </h2>
+                            <div [id]="'collapse' + item.id" class="accordion-collapse collapse" [class]="{'show': item.show}" [attr.aria-labelledby]="'heading' + item.id" data-bs-parent="#accordionExample">
+                            
+                            @if(item.label === 'Registrar Paciente' || item.label === 'Modificar Paciente' || item.label === 'Eliminar Paciente'){
                                 <div class="card">
                                     <div class="card-header">
                                         <div class="row">
                                         <div class="col-12 text-center">
-                                            <h2>{{item.label}}</h2>
+                                            <h2>Formulario {{item.label}}</h2>
                                         </div>
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <form [formGroup]="searchForm" class="d-flex justify-content-center align-items-center" style="margin-top: 1rem;">
-                                            <div class="row">
-                                                <div class="col-md-8 col-12 mb-3">
-                                                    <input type="text" class="form-control w-100" id="rut" formControlName="rut" placeholder="Ingrese Rut:">
-                                                    @if (isSearchFormInvalid('rut')) {
-                                                        <div class="text-danger">RUT es requerido y debe tener el formato válido.</div>
-                                                        }
-                                                </div>
-                                                <div class="col-md-4 col-12 mb-3">
-                                                    <button type="submit" class="btn btn-outline-success w-100" (click)="getPatients()" [disabled]="searchForm.invalid">Buscar</button>
-                                                </div>
-                                            </div>
-                                        </form>  
-                                        
-                                        @if(patientList != undefined){                                
-                                            <app-table [rows]="patientList" label="pacientes"></app-table>                            
-                                        }
-                                        
-                                    </div>
-                                </div>                            
+                                        <form [formGroup]="registroForm">
+                                        <!-- Campo RUT -->
+                                        <div class="mb-3">
+                                            <label for="rut" class="form-label">RUT</label>
+                                            <input type="text" class="form-control" id="rut" formControlName="rut">
+                                            @if (isPatientFieldInvalid('rut')) {
+                                            <div class="text-danger">RUT es requerido y debe tener el formato válido.</div>
+                                            }
+                                        </div>
                             
-                        }
-
-                        </div>
-                </div>
-                }
-            </div>                                     
+                                        <!-- Campo Nombre -->
+                                        <div class="mb-3">
+                                            <label for="nombre" class="form-label">Nombre</label>
+                                            <input type="text" class="form-control" id="nombre" formControlName="nombre">
+                                            @if (isPatientFieldInvalid('nombre')) {
+                                            <div class="text-danger">Nombre es requerido.</div>
+                                            }
+                                        </div>
+                            
+                                        <!-- Campo Apellidos -->
+                                        <div class="mb-3">
+                                            <label for="apellidos" class="form-label">Apellidos</label>
+                                            <input type="text" class="form-control" id="apellidos" formControlName="apellidos">
+                                            @if (isPatientFieldInvalid('apellidos')) {
+                                            <div class="text-danger">Apellidos son requeridos.</div>
+                                            }
+                                        </div>
+                            
+                                        <!-- Campo Email -->
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label">Correo Electrónico</label>
+                                            <input type="email" class="form-control" id="email" formControlName="email">
+                                            @if (isPatientFieldInvalid('email')) {
+                                            <div class="text-danger">Introduce un correo electrónico válido.</div>
+                                            }
+                                        </div>
+                            
+                                        <!-- Campo Fecha de Nacimiento -->
+                                        <div class="mb-3">
+                                            <label for="bornDate" class="form-label">Fecha de Nacimiento</label>
+                                            <input type="date" class="form-control" [max]="currentDate" id="bornDate" formControlName="bornDate">
+                                            @if (isPatientFieldInvalid('bornDate')) {
+                                            <div class="text-danger">La fecha de nacimiento es requerida.</div>
+                                            }
+                                        </div>
+                            
+                                        <!-- Campo Contraseña -->
+                                        <div class="mb-3">
+                                            <label for="password" class="form-label">Contraseña</label>
+                                            <input type="password" class="form-control" id="password" formControlName="password">
+                                            @if (isPatientFieldInvalid('password')) {
+                                            <div class="text-danger">La contraseña debe tener al menos 6 caracteres.</div>
+                                            }
+                                        </div>
+                            
+                                        <!-- Campo Confirmar Contraseña -->
+                                        <div class="mb-3">
+                                            <label for="password2" class="form-label">Confirmar Contraseña</label>
+                                            <input type="password" class="form-control" id="password2" formControlName="password2">
+                                            @if (isPatientFieldInvalid('password2')) {
+                                            <div class="text-danger">La confirmación de contraseña debe tener al menos 6 caracteres.</div>
+                                            }
+                                        </div>
+                            
+                                        <button type="submit" class="btn btn-primary" (click)="submitForm()" [disabled]="registroForm.invalid">Registrar</button>
+                                        </form>
+                                    </div>
+                                </div>
+    
+                            }@else if (item.label === 'Fichas Paciente'){                      
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <div class="row">
+                                            <div class="col-12 text-center">
+                                                <h2>{{item.label}}</h2>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <form [formGroup]="searchForm" class="d-flex justify-content-center align-items-center" style="margin-top: 1rem;">
+                                                <div class="row">
+                                                    <div class="col-md-8 col-12 mb-3">
+                                                        <input type="text" class="form-control w-100" id="rut" formControlName="rut" placeholder="Ingrese Rut:">
+                                                        @if (isSearchFormInvalid('rut')) {
+                                                            <div class="text-danger">RUT es requerido y debe tener el formato válido.</div>
+                                                            }
+                                                    </div>
+                                                    <div class="col-md-4 col-12 mb-3">
+                                                        <button type="submit" class="btn btn-outline-success w-100" (click)="getPatients()" [disabled]="searchForm.invalid">Buscar</button>
+                                                    </div>
+                                                </div>
+                                            </form>  
+                                            
+                                            @if(patientList != undefined){                                
+                                                <app-table [rows]="patientList" label="pacientes"></app-table>                            
+                                            }
+                                            
+                                        </div>
+                                    </div>                            
+                                
+                            }
+    
+                            </div>
+                    </div>
+                    }
+                </div>                                     
+            </div>
         </div>
-    </div>
+
+    }
 </div>

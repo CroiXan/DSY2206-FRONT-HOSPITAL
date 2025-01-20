@@ -1,7 +1,7 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { PatientService } from '../../service/patient.service';
 import { Patient } from '../../model/patient.model';
 import { TableComponent } from '../table/table.component';
@@ -10,7 +10,7 @@ import {patientAccordion, patients} from '../../data/index';
 @Component({
   selector: 'app-paciente',
   standalone: true,
-  imports: [ReactiveFormsModule,CommonModule, TableComponent],
+  imports: [ReactiveFormsModule,CommonModule, TableComponent, RouterOutlet],
   templateUrl: './paciente.component.html',
   styleUrl: './paciente.component.css',
   providers: [DatePipe, RouterLink]
@@ -25,6 +25,7 @@ export class PacienteComponent {
   accordionItems!: any[] | undefined;
   actionCrud: string ="";
   patientList? : any[] = undefined;
+  childRoute : boolean = false;
 
 
   constructor(
@@ -55,7 +56,7 @@ export class PacienteComponent {
   }
 
   ngOnInit(): void {
-
+    this.childRoute = false;
     this.loadAcordion();
     this.patientList = patients;
     console.log("this.patientList",this.patientList);
@@ -149,6 +150,10 @@ export class PacienteComponent {
       if (data !== null && typeof data === 'object' && Object.keys(data).length > 0) {
         this.patientList = []; 
         this.patientList?.push(data);
+
+        this.childRoute = true;
+        this.router.navigate(['/paciente/signos']);
+
       } else {
         this.patientList = [];
       }
