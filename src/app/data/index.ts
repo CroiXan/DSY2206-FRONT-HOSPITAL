@@ -106,7 +106,7 @@ export const patientAccordion : any [] = [
     },
     {
       id: 3,
-      label: "Fichas Paciente",
+      label: "Signos Paciente",
     }
   ];
   
