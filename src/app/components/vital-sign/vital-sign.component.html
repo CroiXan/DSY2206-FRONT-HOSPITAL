@@ -1,0 +1,29 @@
+<div class="container mt-4">
+    <div class="row">
+      <div class="col-md-4" *ngFor="let sign of vitalSigns">
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">Paciente {{ sign.idPaciente }}</h5>
+            <p class="card-text">
+              <strong>Frecuencia Cardiaca:</strong> {{ sign.frecuenciaCardiaca }} bpm
+            </p>
+            <p class="card-text">
+              <strong>Frecuencia Respiratoria:</strong> {{ sign.frecuenciaRespiratoria }} rpm
+            </p>
+            <p class="card-text">
+              <strong>Presión Arterial:</strong> {{ sign.presionArterialSistolica }}/{{ sign.presionArterialDiastolica }} mmHg
+            </p>
+            <p class="card-text">
+              <strong>Temperatura:</strong> {{ sign.temperaturaCorporal }} °C
+            </p>
+            <p class="card-text">
+              <strong>Saturación de Oxígeno:</strong> {{ sign.saturacionOxigeno }}%
+            </p>
+            <p class="card-text text-muted">
+                <strong>Hora:</strong> {{ sign.instante | date:'short' }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

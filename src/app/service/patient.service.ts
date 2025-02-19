@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, switchMap } from 'rxjs';
+import { catchError, map, Observable, of, switchMap } from 'rxjs';
 import { Patient } from '../model/patient.model';
 
 @Injectable({
@@ -27,6 +27,20 @@ export class PatientService {
           errorMSJ = error
         }
         return errorMSJ;
+      })
+    );
+  }
+
+  public getAllPatientsId(): Observable<number[]> {
+    return this.http.get<Patient[]>(this.API_URI, this.httpOptions).pipe(
+      map((patients) =>
+        patients
+          .map((p) => p.id)
+          .filter((id): id is number => id !== undefined) 
+      ),
+      catchError(() => {
+        console.error(this.defaultError);
+        return of([]); 
       })
     );
   }
