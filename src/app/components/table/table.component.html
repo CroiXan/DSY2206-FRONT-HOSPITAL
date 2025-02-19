@@ -22,6 +22,7 @@
                             <th scope="col">Apellidos</th>
                             <th scope="col">Email</th>
                             <th scope="col">Fecha de Nacimiento</th>
+                            <th scope="col">Acciones</th> <!-- Nueva columna -->
                         </tr>
                         }
                     </thead>
@@ -29,14 +30,63 @@
                         @for(row of rows; track row.id){
                             <!-- body para pacientes -->
                             @if(label === "pacientes"){
-                            <tr>
-                                <th scope="row">{{ row.id }}</th>
-                                <td>{{ row.rut }}</td>
-                                <td>{{ row.nombre }}</td>
-                                <td>{{ row.apellidos }}</td>
-                                <td>{{ row.email }}</td>
-                                <td>{{ row.bornDate }}</td>
-                            </tr>
+                                <tr>
+                                    <th scope="row">{{ row.id }}</th>
+    
+                                    <td>
+                                        @if(row.id !== undefined && editando[row.id]){
+                                            <input type="text" class="form-control" [(ngModel)]="datosEditados[row.id].rut">
+                                        }@else{
+                                            {{ row.rut }}
+                                        }
+                                    </td>
+                                    <td>
+                                        @if(row.id !== undefined && editando[row.id]){
+                                            <input type="text" class="form-control" [(ngModel)]="datosEditados[row.id].nombre">
+                                        }@else{
+                                            {{ row.nombre }}
+                                        }
+                                    </td>
+                                    <td>
+                                        @if(row.id !== undefined && editando[row.id]){
+                                            <input type="text" class="form-control" [(ngModel)]="datosEditados[row.id].apellidos">
+                                        }@else{
+                                            {{ row.apellidos }}
+                                        }
+                                    </td>
+                                    <td>
+                                        @if(row.id !== undefined && editando[row.id]){
+                                            <input type="email" class="form-control" [(ngModel)]="datosEditados[row.id].email">
+                                        }@else{
+                                            {{ row.email }}
+                                        }
+                                    </td>
+                                    <td>
+                                        @if(row.id !== undefined && editando[row.id]){
+                                            <input type="date" class="form-control" [(ngModel)]="datosEditados[row.id].bornDate">
+                                        }@else{
+                                            {{ row.bornDate }}
+                                        }
+                                    </td>
+    
+                                    <td>
+                                        @if(row.id !== undefined && editando[row.id]){
+                                            <button class="btn btn-success btn-sm" (click)="guardarEdicion(row.id)">
+                                                Guardar
+                                            </button>
+                                            <button class="btn btn-secondary btn-sm" (click)="cancelarEdicion(row.id)">
+                                                Cancelar
+                                            </button>
+                                        }@else{
+                                            <button class="btn btn-primary btn-sm" (click)="activarEdicion(row)">
+                                                Editar
+                                            </button>
+                                            <button class="btn btn-danger btn-sm" (click)="eliminarPaciente(row.id)">
+                                                Eliminar
+                                            </button>
+                                        }
+                                    </td>
+                                </tr>
                             }
                         }
                     </tbody>

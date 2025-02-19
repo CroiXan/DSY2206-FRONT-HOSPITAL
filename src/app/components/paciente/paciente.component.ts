@@ -5,27 +5,27 @@ import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { PatientService } from '../../service/patient.service';
 import { Patient } from '../../model/patient.model';
 import { TableComponent } from '../table/table.component';
-import {patientAccordion, patients} from '../../data/index';
+import { patientAccordion } from '../../data/index';
 
 @Component({
   selector: 'app-paciente',
   standalone: true,
-  imports: [ReactiveFormsModule,CommonModule, TableComponent, RouterOutlet],
+  imports: [ReactiveFormsModule, CommonModule, TableComponent, RouterOutlet],
   templateUrl: './paciente.component.html',
   styleUrl: './paciente.component.css',
   providers: [DatePipe, RouterLink]
 })
 export class PacienteComponent {
 
-  title:string = "Módulo Pacientes";
-  subtitle:string = "Bienvenido al módulo de Gestión de Pacientes Aquí podrás gestionar los registros de pacientes y otras tareas relacionadas.";
+  title: string = "Módulo Pacientes";
+  subtitle: string = "Bienvenido al módulo de Gestión de Pacientes Aquí podrás gestionar los registros de pacientes y otras tareas relacionadas.";
   registroForm!: FormGroup;
   searchForm!: FormGroup;
   currentDate: string = "";
   accordionItems!: any[] | undefined;
-  actionCrud: string ="";
-  patientList? : any[] = undefined;
-  childRoute : boolean = false;
+  actionCrud: string = "";
+  patientList?: any[] = undefined;
+  childRoute: boolean = false;
 
 
   constructor(
@@ -37,7 +37,7 @@ export class PacienteComponent {
   ) {
     // Inicialización del formulario con validaciones
     this.registroForm = this.formBuilder.group({
-      rut: ['', [Validators.required, Validators.minLength(3)]], 
+      rut: ['', [Validators.required, Validators.minLength(3)]],
       nombre: ['', Validators.required],
       apellidos: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -58,8 +58,18 @@ export class PacienteComponent {
   ngOnInit(): void {
     this.childRoute = false;
     this.loadAcordion();
-    this.patientList = patients;
-    console.log("this.patientList",this.patientList);
+    this.patientService.getAllPatients().subscribe({
+      next: (response) => {
+        if (typeof response === 'object') {
+          console.log('Respuesta correcta:', response);
+          this.patientList = response;
+        } else {
+          console.warn('Error recibido:', response);
+        }
+      },
+      error: (err) => console.error('Error en la API:', err)
+    });
+    console.log("this.patientList", this.patientList);
   }
 
 
@@ -90,16 +100,25 @@ export class PacienteComponent {
     const control = this.searchForm.get(campo);
     return control?.touched && control?.invalid || false;
   }
-  
 
-  loadAcordion()
-  {
+
+  loadAcordion() {
     this.accordionItems! = patientAccordion;
   }
 
-  toggleAccordion(item: any, $event:any){
+  toggleAccordion(item: any, $event: any) {
     item.show = !item.show;
     this.onSetAccordionChange($event);
+  }
+
+  toggleAccordionByName(label: string, open: boolean) {
+    if (this.accordionItems !== undefined) {
+      const item = this.accordionItems.find(i => i.label === label);
+      if (item) {
+        item.show = open;
+      }
+    }
+
   }
 
   submitForm() {
@@ -133,22 +152,36 @@ export class PacienteComponent {
     console.log(userData);
     //validar accion segun accordion actionCrud se setea cuando apretamos el acordeon onSetAccordionChange()
     //aqui llamar servicio si post hacer post , si put actualizar, eliminar quizas no, y el buscar llamara  todos los pacientes y filtrar por rut aqui en front mientras
-    
+
     this.patientService.callAPI(this.actionCrud, userData, (data) => {
       console.log(JSON.stringify(data))
+      this.patientService.getAllPatients().subscribe({
+        next: (response) => {
+          if (typeof response === 'object') {
+            console.log('Respuesta correcta:', response);
+            this.patientList = response;
+            this.toggleAccordionByName('Registrar Paciente', false);
+            this.toggleAccordionByName('Paciente', true);
+          } else {
+            console.warn('Error recibido:', response);
+          }
+        },
+        error: (err) => console.error('Error en la API:', err)
+      });
+
     });
-    console.log("this.actionCrud",this.actionCrud)
+    console.log("this.actionCrud", this.actionCrud)
 
   }
 
-  getPatients(){
-    console.log("this.searchForm.value",this.searchForm.value);
+  getPatients() {
+    console.log("this.searchForm.value", this.searchForm.value);
     const { rut } = this.searchForm.value;
     this.patientService.findByRut(rut, (data) => {
-      console.log("data",data)
+      console.log("data", data)
 
       if (data !== null && typeof data === 'object' && Object.keys(data).length > 0) {
-        this.patientList = []; 
+        this.patientList = [];
         this.patientList?.push(data);
 
         this.childRoute = true;
@@ -162,22 +195,36 @@ export class PacienteComponent {
     });
   }
 
-  onSetAccordionChange($event:any){
-    console.log("$event.target.innerText",$event.target.innerText);
-    if($event.target.innerText === 'Registrar Paciente'){
+  onSetAccordionChange($event: any) {
+    console.log("$event.target.innerText", $event.target.innerText);
+    if ($event.target.innerText === 'Registrar Paciente') {
       this.actionCrud = "POST";
     }
-    else if ($event.target.innerText === 'Modificar Paciente'){
+    else if ($event.target.innerText === 'Modificar Paciente') {
       this.actionCrud = "PUT";
     }
-    else if ($event.target.innerText === 'Eliminar Paciente'){
+    else if ($event.target.innerText === 'Eliminar Paciente') {
       this.actionCrud = "DELETE";
     }
-    else if ($event.target.innerText === 'Fichas Paciente'){
+    else if ($event.target.innerText === 'Fichas Paciente') {
       this.actionCrud = "GET";
     }
 
-    
+
+  }
+
+  OnRefrescar() {
+    this.patientService.getAllPatients().subscribe({
+      next: (response) => {
+        if (typeof response === 'object') {
+          console.log('Respuesta correcta:', response);
+          this.patientList = response;
+        } else {
+          console.warn('Error recibido:', response);
+        }
+      },
+      error: (err) => console.error('Error en la API:', err)
+    });
   }
 
 }
