@@ -7,7 +7,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     auth: {
       clientId: environment.msalConfig.auth.clientId, // Usamos el clientId desde environment
       authority: environment.msalConfig.auth.authority, // Usamos authority desde environment
-      redirectUri: 'http://localhost:4200', // Este valor puedes mantenerlo fijo o configurarlo también en environment
+      redirectUri: 'https://duochospital.ddns.net', // Este valor puedes mantenerlo fijo o configurarlo también en environment
       knownAuthorities: ['mattiduoc.b2clogin.com'],
     },
   });

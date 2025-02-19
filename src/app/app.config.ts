@@ -18,8 +18,8 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     auth: {
       clientId: environment.msalConfig.auth.clientId,
       authority: environment.msalConfig.auth.authority,
-      redirectUri: '/',
-      postLogoutRedirectUri: '/',
+      redirectUri: 'https://duochospital.ddns.net/',
+      postLogoutRedirectUri: 'https://duochospital.ddns.net/',
       knownAuthorities: ['mattiduoc.b2clogin.com'],
     },
     cache: {
